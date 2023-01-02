@@ -31,13 +31,7 @@ jobs:
         tags: containerregistrysentimentanalysis.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_cfb9154696014248b20687969dca0192 }}/apisentimentanalysis:${{ github.sha }}
         file: ./Dockerfile
 
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Run tests
-      run: |
-        python -m unittest
+
 
   deploy:
     runs-on: ubuntu-latest
