@@ -335,7 +335,6 @@ stopwords = ['anyone',
  'four',
  'even']
 
-
 def preprocess_tweet(tweet):
     #Preprocess the text in a single tweet
     #arguments: tweet = a single tweet in form of string 
