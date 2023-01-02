@@ -1,5 +1,6 @@
 name: Build and deploy container app to Azure Web App - webappsentimentanalysis
 
+
 on:
   push:
     branches:
