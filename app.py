@@ -8,7 +8,6 @@ import pickle
 #loading the english language small model of spacy
 #en = spacy.load('en_core_web_sm')
 
-#en = spacy.load('en_core_web_sm')
 stopwords = ['anyone',
  'hereafter',
  'n‘t',
