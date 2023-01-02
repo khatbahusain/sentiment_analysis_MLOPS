@@ -1,0 +1,7 @@
+.DS_Store
+glove.6B.50d.txt
+*.ipynb
+training.1600000.processed.noemoticon.csv
+mysqlite_mlflow.db
+project7.key
+__pycache__
