@@ -1,14 +1,8 @@
-from fastapi import FastAPI
+import unittest
 import mlflow
-import re
-import uvicorn
 import re
 import pickle
 
-#loading the english language small model of spacy
-#en = spacy.load('en_core_web_sm')
-
-#en = spacy.load('en_core_web_sm')
 stopwords = ['anyone',
  'hereafter',
  'n‘t',
@@ -366,24 +360,31 @@ tfidf_vectorizer = pickle.load(open("tfidf_vectorizer.pickle", "rb"))
 model_path = "mlruns/1/52f9af789a36475cac1b2e04e8895d60/artifacts/model"
 model = mlflow.pyfunc.load_model(model_path)
 
-app = FastAPI()
 
+class TestAPI(unittest.TestCase):
+    def test_preprocess_tweet(self):
+        # Test with a tweet containing URLs
+        tweet = "Check out this cool article at https://www.example.com"
+        expected_output = "check cool article"
+        self.assertEqual(preprocess_tweet(tweet), expected_output)
+        
+        
+    def test_predict(self):
+        # Test with a positive tweet
+        input_tweet = "I love this movie!"
+        input_tweet_preprocessed = preprocess_tweet(input_tweet)
+        features_tweet = tfidf_vectorizer.transform([input_tweet_preprocessed])
+        expected_output = [4]
 
-@app.post("/predict")
-def predict(input_tweet):
-    # Preprocess the text
-    
-    input_tweet_preprocessed = preprocess_tweet(input_tweet)
-    
-    features_tweet = tfidf_vectorizer.transform([input_tweet_preprocessed])
-    
-    # Make the prediction using the trained model
-    prediction = model.predict(features_tweet)
-    
-    # Return the prediction as a string
-    return {'input_tweet': input_tweet, 'input_tweet_preprocessed':input_tweet_preprocessed, "prediction": "positive" if prediction == 4 else "negative"}
+        self.assertEqual(model.predict(features_tweet), expected_output)
 
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-    
+        # Test with a negative tweet
+        input_tweet = "I hate this movie!"
+        input_tweet_preprocessed = preprocess_tweet(input_tweet)
+        features_tweet = tfidf_vectorizer.transform([input_tweet_preprocessed])
+        expected_output = [0]
+        self.assertEqual(model.predict(features_tweet), expected_output)
+        
+        
+if __name__ == '__main__':
+    unittest.main()
