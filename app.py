@@ -365,7 +365,7 @@ model_path = "mlruns/1/52f9af789a36475cac1b2e04e8895d60/artifacts/model"
 model = mlflow.pyfunc.load_model(model_path)
 
 app = FastAPI()
-
+#test
 
 @app.post("/predict")
 def predict(input_tweet):
