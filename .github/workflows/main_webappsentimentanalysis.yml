@@ -1,5 +1,7 @@
-name: Build and deploy container app to Azure Web App - webappsentimentanalysis
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
+name: Build and deploy container app to Azure Web App - webappsentimentanalysis
 
 on:
   push:
@@ -21,25 +23,15 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: https://containerregistrysentimentanalysis.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_cfb9154696014248b20687969dca0192 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_480373136ec140299edb42c3445704fe }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_a028e3c0ab8b452892f5ac5b00e8164a }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_ba57276ff1144cdd8a8c4d701af02ac6 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: containerregistrysentimentanalysis.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_cfb9154696014248b20687969dca0192 }}/apisentimentanalysis:${{ github.sha }}
+        tags: containerregistrysentimentanalysis.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_a028e3c0ab8b452892f5ac5b00e8164a }}/apisentimentanalysis:${{ github.sha }}
         file: ./Dockerfile
-
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Run tests
-      run: |
-        python -m unittest
-
 
   deploy:
     runs-on: ubuntu-latest
@@ -55,5 +47,5 @@ jobs:
       with:
         app-name: 'webappsentimentanalysis'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_c801e5d7ed11479b971b444f712788f4 }}
-        images: 'containerregistrysentimentanalysis.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_cfb9154696014248b20687969dca0192 }}/apisentimentanalysis:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_5eee48d98c2e4bfdb80058b7919e2581 }}
+        images: 'containerregistrysentimentanalysis.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_a028e3c0ab8b452892f5ac5b00e8164a }}/apisentimentanalysis:${{ github.sha }}'
